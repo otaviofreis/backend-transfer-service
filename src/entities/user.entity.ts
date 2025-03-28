@@ -1,11 +1,11 @@
 export enum UserType {
-    COMMON = 'COMMON', // Comum
-    MERCHANT = 'MERCHANT', // Lojista
+    COMMON = 'COMMON', 
+    MERCHANT = 'MERCHANT', 
   }
   
   export class User {
     id: number;
-    fullName: string; // Nome completo
+    fullName: string; 
     email: string;
     cpfOrCnpj: string;
     password: string;

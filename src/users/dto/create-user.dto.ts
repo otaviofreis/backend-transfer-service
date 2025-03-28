@@ -4,7 +4,7 @@ import { UserType } from 'src/entities/user.entity';
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  fullName: string; // Nome completo
+  fullName: string; 
 
   @IsNotEmpty()
   @IsEmail()

@@ -12,7 +12,7 @@ describe('TransactionsController', () => {
         {
           provide: TransactionsService,
           useValue: {
-            create: jest.fn(), // mock da função create
+            create: jest.fn(),
           },
         },
       ],

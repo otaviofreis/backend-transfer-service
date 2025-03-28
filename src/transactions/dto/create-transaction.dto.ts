@@ -4,13 +4,13 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   @IsNumber()
   @Min(0.01)
-  value: number; // Valor
+  value: number; 
 
   @IsNotEmpty()
   @IsNumber()
-  payerId: string; // ID de quem paga
+  payerId: string; 
 
   @IsNotEmpty()
   @IsNumber()
-  payeeId: string; // ID de quem recebe
+  payeeId: string; 
 }

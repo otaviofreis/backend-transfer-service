@@ -12,7 +12,7 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: getModelToken(User.name),
-          useValue: {}, // mock vazio ou funções fake se quiser testar lógica
+          useValue: {}, 
         },
       ],
     }).compile();

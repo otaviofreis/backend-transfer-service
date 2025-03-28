@@ -9,7 +9,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // Torna as variáveis acessíveis globalmente
+    ConfigModule.forRoot({ isGlobal: true }), 
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

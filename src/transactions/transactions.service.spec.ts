@@ -7,7 +7,7 @@ import { Transaction } from './schemas/transaction.schema';
 import { UserType } from '../users/schemas/user.schema';
 import axios from 'axios';
 import { BadRequestException } from '@nestjs/common';
-import { Types } from 'mongoose'; // ✅ Importamos o Types para gerar ObjectId válido
+import { Types } from 'mongoose'; 
 
 jest.mock('axios');
 
@@ -17,7 +17,7 @@ describe('TransactionsService', () => {
   let walletsService: Partial<WalletsService>;
   let transactionModel: any;
 
-  // ✅ Geramos ObjectIds válidos pra simular o Mongo sem depender do banco real
+  
   const payerId = new Types.ObjectId().toHexString();
   const payeeId = new Types.ObjectId().toHexString();
 
@@ -51,7 +51,7 @@ describe('TransactionsService', () => {
     (usersService.findById as jest.Mock).mockImplementation((id) => {
       return {
         _id: id,
-        type: UserType.MERCHANT, // ✅ Simulando usuário do tipo MERCHANT
+        type: UserType.MERCHANT,
       };
     });
 
@@ -66,12 +66,12 @@ describe('TransactionsService', () => {
       type: UserType.COMMON,
     });
 
-    // ✅ Mock do saldo do pagador insuficiente
+    
     (walletsService.findByUserId as jest.Mock).mockResolvedValueOnce({
       balance: 10,
     });
 
-    // ✅ Mock do recebedor, aqui não importa muito o saldo
+ 
     (walletsService.findByUserId as jest.Mock).mockResolvedValueOnce({
       balance: 0,
     });
@@ -91,7 +91,7 @@ describe('TransactionsService', () => {
       balance: 100,
     });
 
-    // ✅ Simulando serviço externo retornando "Não autorizado"
+    
     (axios.get as jest.Mock).mockResolvedValue({
       data: {
         message: 'Não autorizado',
@@ -113,17 +113,17 @@ describe('TransactionsService', () => {
       balance: 100,
     });
 
-    // ✅ Serviço externo aprovando a transação
+    
     (axios.get as jest.Mock).mockResolvedValue({
       data: {
         message: 'Autorizado',
       },
     });
 
-    // ✅ Notificação enviada com sucesso
+    
     (axios.post as jest.Mock).mockResolvedValue({});
 
-    // ✅ Transação salva com sucesso no banco
+    
     (transactionModel.create as jest.Mock).mockResolvedValue({
       _id: 'tx1',
     });

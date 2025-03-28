@@ -26,7 +26,7 @@ export class TransactionsService {
     try {
       const { payerId, payeeId, value } = dto;
 
-      // 1. Buscar usuários reais no banco
+     
       const payer = await this.usersService.findById(payerId);
       const payee = await this.usersService.findById(payeeId);
 
@@ -34,12 +34,12 @@ export class TransactionsService {
         throw new BadRequestException('User not found');
       }
 
-      // 2. Validar se o pagador é do tipo COMMON
+      
       if (payer.type !== UserType.COMMON) {
         throw new BadRequestException('Merchants cannot send money');
       }
 
-      // 3. Buscar carteiras reais
+      
       const payerWallet = await this.walletsService.findByUserId(
         payer._id as Types.ObjectId,
       );
@@ -51,12 +51,12 @@ export class TransactionsService {
         throw new BadRequestException('Wallet not found');
       }
 
-      // 4. Verificar saldo
+      
       if (payerWallet.balance < value) {
         throw new BadRequestException('Insufficient balance');
       }
 
-      // 5. Chamar serviço externo de autorização
+      
       const authResponse = await axios.get<AuthorizationResponse>(
         'https://util.devi.tools/api/v2/authorize',
       );
@@ -68,7 +68,7 @@ export class TransactionsService {
         );
       }
 
-      // 6. Atualizar saldos no banco
+      
       await this.walletsService.updateBalance(
         payer._id as Types.ObjectId,
         payerWallet.balance - value,
@@ -78,14 +78,14 @@ export class TransactionsService {
         payeeWallet.balance + value,
       );
 
-      // 7. Salvar transação
+      
       const transaction = await this.transactionModel.create({
         value,
         payerId: new Types.ObjectId(payer._id as Types.ObjectId),
         payeeId: new Types.ObjectId(payee._id as Types.ObjectId),
       });
 
-      // 8. Notificar recebedor (não falha se erro)
+      
       const payeeIdAsString = String(payee._id); 
 
 
@@ -94,7 +94,7 @@ export class TransactionsService {
         message: 'You received a transfer!',
       });
 
-      // 9. Retorno final
+      
       return {
         success: true,
         transactionId: transaction._id,
@@ -103,7 +103,7 @@ export class TransactionsService {
       console.error('Transaction error:', error);
     
       if (error instanceof BadRequestException) {
-        throw error; // repassa os erros já tratados
+        throw error;
       }
     
       throw new BadRequestException('Internal error during transaction');
