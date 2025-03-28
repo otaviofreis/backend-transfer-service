@@ -8,7 +8,8 @@ import { Wallet, WalletSchema } from './schemas/wallet.schema';
   imports: [
     MongooseModule.forFeature([{ name: Wallet.name, schema: WalletSchema }]),
   ],
+  controllers: [WalletsController],
   providers: [WalletsService],
-  controllers: [WalletsController]
+  exports: [WalletsService], // <- ESSE AQUI É O NECESSÁRIO
 })
 export class WalletsModule {}
